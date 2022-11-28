@@ -29,5 +29,6 @@ public class LocadoraRouter extends RouteBuilder {
 //
 //        from("timer://timer1?period=2s")
 //                .to("sql:select * from tb_movies");
+
     }
 }
