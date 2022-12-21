@@ -1,14 +1,16 @@
 package com.camel.locadora.routes;
 
 import lombok.AllArgsConstructor;
+import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.model.rest.RestBindingMode;
+import org.apache.camel.component.http.HttpMethods;
+import org.apache.camel.impl.DefaultCamelContext;
 import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
-public class LocadoraRouter extends RouteBuilder {
+public class AggregatorRoute extends RouteBuilder {
 
     public static final String ROUTE_GET = "direct:movieRouter";
     public static final String ROUTE_GET_BY_ID = "direct:movieRouterById";
@@ -17,6 +19,7 @@ public class LocadoraRouter extends RouteBuilder {
     public static final String ROUTE_DELETE = "direct:movieRouterDelete";
 
     public void configure() throws Exception {
+
 
 //            from("direct:dbInput")
 //                    .to("log:?level=INFO&showBody=true")
@@ -46,22 +49,46 @@ public class LocadoraRouter extends RouteBuilder {
 //                .to("jdbc:postgresql")
 //                .log("${body}");
 
-        restConfiguration().host("localhost").port(8090)
-                .bindingMode(RestBindingMode.auto);
+//        restConfiguration().host("localhost").port(8090)
+//                .bindingMode(RestBindingMode.auto);
+//
+//        //inicia delaração dos serviços REST
+//        rest("/movies")
+//                //Endpoint que consulta todos os filmes
+//                .get("/")
+//                .routeId("restAllMovies")
+//                .to("direct:callRestAll");
+//
+//        from("direct:callRestAll")
+//                .routeId("allService")
+//                .removeHeaders("CamelHttp*")
+//                .setHeader(Exchange.HTTP_METHOD, constant("GET"))
+//                .to("http:/localhost:8080/movies");
 
-        //inicia delaração dos serviços REST
-        rest("/movies")
-                //Endpoint que consulta todos os filmes
-                .get("/")
-                .routeId("restAllMovies")
-                .to("direct:callRestAll");
 
-        from("direct:callRestAll")
-                .routeId("allService")
-                .removeHeaders("CamelHttp*")
-                .setHeader(Exchange.HTTP_METHOD, constant("GET"))
-                .to("http:/localhost:8080/movies");
+//        from("jetty:http://localhost:8090/movies?matchOnUriPrefix=true")
+//                .to("http://localhost:8080/movies?bridgeEndpoint=true")
+//                .log("${body}");
 
+
+
+
+
+//        from("direct:http://localhost:8090/movies")
+//                .to("direct:http://localhost:8080/movies")
+//                .log("${body}");
+
+//        from("direct:http://localhost:8090/movies")
+//                .routeId("allService")
+//                .removeHeaders("CamelHttp*")
+//                .setHeader(Exchange.HTTP_METHOD, constant("GET"))
+//                .to("direct:http://localhost:8080/movies");
+
+        from("direct:http://localhost:8090/movies")
+                .routeId("route-movies")
+                .log("Buscando dados dos filmes")
+                .setHeader(Exchange.HTTP_METHOD, HttpMethods.GET)
+                .to("direct:http://localhost:8080/movies");
 
     }
 }
