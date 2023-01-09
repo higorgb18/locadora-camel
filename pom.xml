@@ -47,10 +47,24 @@
             <version>3.19.0</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.camel.springboot</groupId>
+            <artifactId>camel-undertow-starter</artifactId>
+            <version>3.19.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-jetty</artifactId>
             <version>3.19.0</version>
-            <!-- use the same version as your Camel core version -->
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-openapi-java</artifactId>
+            <version>3.19.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-jackson</artifactId>
+            <version>3.19.0</version>
         </dependency>
 
         <dependency>

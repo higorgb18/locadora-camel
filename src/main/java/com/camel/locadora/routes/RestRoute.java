@@ -10,12 +10,18 @@
 //    @Override
 //    public void configure() throws Exception {
 //        restConfiguration()
-//                .port(8090)
+//                .host("0.0.0.0").port(8090)
 //                .bindingMode(RestBindingMode.auto);
 //
-//        rest("rest:get:movies")
+//        rest("/movies")
 //                .get("/")
-//                .to("direct:http://localhost:8080/movies");
+//                .route().routeId("rest-all-authors")
+//                .to("direct:call-rest-all")
+//                .endRest()
 //
+//                .get("/authors/{name}")
+//                .route().routeId("rest-author-by-name")
+//                .to("direct:call-rest-author")
+//                .endRest();
 //    }
 //}
